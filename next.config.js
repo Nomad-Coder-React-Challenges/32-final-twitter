@@ -6,7 +6,7 @@ const nextConfig = {
     emotion: true,
   },
   images: {
-    domains: ['storage.googleapis.com'],
+    domains: ['storage.googleapis.com', 'encrypted-tbn0.gstatic.com'],
   },
   webpack: (config) => {
     // !! nextjs svgr 세팅

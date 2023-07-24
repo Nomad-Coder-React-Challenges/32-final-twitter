@@ -1,23 +1,24 @@
 import { useTheme } from '@emotion/react';
-import Link from 'next/link';
+import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 
 import styles from './home.styled';
 
 import * as Atoms from '#components/atoms';
-import { IconArrow } from '#components/atoms/svgs';
-import { useCategoryList } from '#hooks/queries/booksQuery';
+import { IconHeart } from '#components/atoms/svgs';
+import Tweet from '#components/blocks/Tweet';
 import { ScreenSizeState } from '#stores/appStateStore';
+import useTweets from '#utils/client/useTweets';
 
 const HomeTemplate = () => {
   const theme = useTheme();
-  const { isMobile } = useRecoilValue(ScreenSizeState);
+  const { tweets, isLoading } = useTweets();
 
   return (
     <div css={styles.container}>
-      <Atoms.H1 weight='700' lineHeight='130%' css={styles.title}>
-        Tweets
-      </Atoms.H1>
+      {tweets?.map((tweet: any) => (
+        <Tweet key={tweet.id} tweet={tweet} />
+      ))}
     </div>
   );
 };

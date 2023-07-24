@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import instance from '#apis/instance';
 import { DESKTOP_SCREEN_SIZE } from '#constants';
 import { useMobileDetect } from '#hooks';
 import { ScreenSizeState } from '#stores/appStateStore';
@@ -34,9 +33,6 @@ const useResponsive = () => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
-  useEffect(() => {
-    instance.defaults.headers['device-type'] = isMobile() ? 'Mobile' : 'PC';
-  }, [isMobile]);
 };
 
 export default useResponsive;

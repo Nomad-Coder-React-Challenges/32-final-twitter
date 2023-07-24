@@ -13,7 +13,6 @@ const WriteForm = () => {
   const router = useRouter();
 
   const user = useAuth();
-  console.log(user);
 
   const { mutation: write, isFetching } = useMutation<WriteReqModel>(
     '/api/write',

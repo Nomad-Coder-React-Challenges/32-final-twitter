@@ -8,11 +8,11 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useState } from 'react';
 import { RecoilEnv, RecoilRoot } from 'recoil';
+import { SWRConfig } from 'swr';
 import '../styles/tailwind.css';
 
 import { ErrorBoundary, Layout } from '#components/common';
 import StyleProvider from '#styles/StyleProvider';
-import useAuth from 'hooks/useAuth';
 
 export default function App({ Component, pageProps }: AppProps) {
   // ! Next.js + Recoil.js ISSUE 대응
@@ -45,13 +45,20 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps?.dehydratedState}>
-          <StyleProvider>
-            <ErrorBoundary fallback={<div>Error</div>}>
-              <Layout pageProps={pageProps}>
-                <Component {...pageProps} />
-              </Layout>
-            </ErrorBoundary>
-          </StyleProvider>
+          <SWRConfig
+            value={{
+              fetcher: (url: string) =>
+                fetch(url).then((response) => response.json()),
+            }}
+          >
+            <StyleProvider>
+              <ErrorBoundary fallback={<div>Error</div>}>
+                <Layout pageProps={pageProps}>
+                  <Component {...pageProps} />
+                </Layout>
+              </ErrorBoundary>
+            </StyleProvider>
+          </SWRConfig>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
